@@ -21,7 +21,7 @@ namespace DownloadManager
         private HttpWebRequest webRequest;
         private HttpWebResponse webResponse;
         private static int persentProgress;
-        private delegate void UpdateProgressCallback(int bytesRead, int totalBytes);
+        private delegate void UpdateProgressCallback(Int64 bytesRead, Int64 totalBytes);
 
         public DownloadManagerForm()
         {
@@ -29,7 +29,7 @@ namespace DownloadManager
         }
 
 
-        private void UpdateProgress(int bytesRead, int totalBytes)
+        private void UpdateProgress(Int64 bytesRead, Int64 totalBytes)
         {
             persentProgress = Convert.ToInt32((bytesRead * 100) / totalBytes);
             progressBarDownload.Value = persentProgress;
@@ -42,10 +42,10 @@ namespace DownloadManager
             {
                 try
                 {
-                    webRequest = (HttpWebRequest)WebRequest.Create(textBoxDownloadPath.Text);
-                    webRequest.Credentials = CredentialCache.DefaultCredentials;
+                    webRequest = (HttpWebRequest)WebRequest.Create(textBoxDownloadURL.Text);
+                    //webRequest.Credentials = CredentialCache.DefaultCredentials;
                     webResponse = (HttpWebResponse)webRequest.GetResponse();
-                    int fileSize = Int32.Parse(webResponse.ContentLength.ToString());
+                    Int64 fileSize = Int64.Parse(webResponse.ContentLength.ToString());
 
                     streamResponse = webClientDownload.OpenRead(textBoxDownloadURL.Text);
                     streamLocal = new FileStream(textBoxDownloadPath.Text, FileMode.Create, FileAccess.Write, FileShare.None);
